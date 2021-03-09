@@ -7,19 +7,22 @@ import Spacer from "../components/Spacer";
 import './component/style.scss'
 import { useEffect } from "react";
 import socketIO from 'socket.io-client';
-import { setUserBalances, useExchangeDispatch } from '../context/ExchangeContext';
+import { setTackStocks, setUserBalances, useExchangeDispatch } from '../context/ExchangeContext';
 
 
 const Home = () => {
 
   const exchangeDispatch = useExchangeDispatch();
+
   const socket = React.useRef(socketIO('http://localhost:3010/socket',
     { transports: ['websocket', 'polling', 'flashsocket'] }
   ));
   useEffect(() => {
     socket.current.on("balance", (data) => {
-      console.log(data);
       setUserBalances(exchangeDispatch, data.balance, data.tavanKharid);
+    })
+    socket.current.on("tackStockList", (list) => {
+      setTackStocks(exchangeDispatch, list)
     })
   }, []);
 

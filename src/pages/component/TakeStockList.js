@@ -5,40 +5,9 @@ import Row from "../../components/Row";
 import Col from "../../components/Col";
 import { useExchangeState } from '../../context/ExchangeContext';
 
-const data = [
-  {
-    symbol: "دارا یکم",
-    volume: 2400,
-    lastPrice: 2530,
-    lastPricePercent: 5,
-    value: 12000000
-  },
-  {
-    symbol: "شپنا",
-    volume: 320,
-    lastPrice: 4500,
-    lastPricePercent: -5,
-    value: 5030000
-  },
-  {
-    symbol: "غزر",
-    volume: 100,
-    lastPrice: 2000,
-    lastPricePercent: 2,
-    value: 280000
-  },
-  {
-    symbol: "آبادا",
-    volume: 300,
-    lastPrice: 1500,
-    lastPricePercent: 1,
-    value: 450000
-  },
-];
-
 const TakeStockList = () => {
 
-  const {balance, tavanKharid} = useExchangeState();
+  const {balance, tavanKharid, takeStocks} = useExchangeState();
   return (
     <Col className={"card"} style={{height: '100%', position: 'relative'}}>
       <div style={{flex: 1,}}>
@@ -52,7 +21,7 @@ const TakeStockList = () => {
           </tr>
           </thead>
           <tbody>
-          {data.map(item => <TakeStockItem data={item}/>)}
+          {takeStocks.map(item => <TakeStockItem data={item}/>)}
           </tbody>
         </table>
       </div>
