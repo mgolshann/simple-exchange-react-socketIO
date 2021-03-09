@@ -5,10 +5,23 @@ import Col from "../components/Col";
 import TakeStockDetail from "./component/TakeStackDetail";
 import Spacer from "../components/Spacer";
 import './component/style.scss'
-import {useEffect} from "react";
+import { useEffect } from "react";
+import socketIO from 'socket.io-client';
+import { setUserBalances, useExchangeDispatch } from '../context/ExchangeContext';
+
 
 const Home = () => {
 
+  const exchangeDispatch = useExchangeDispatch();
+  const socket = React.useRef(socketIO('http://localhost:3010/socket',
+    { transports: ['websocket', 'polling', 'flashsocket'] }
+  ));
+  useEffect(() => {
+    socket.current.on("balance", (data) => {
+      console.log(data);
+      setUserBalances(exchangeDispatch, data.balance, data.tavanKharid);
+    })
+  }, []);
 
   return (
     <Col style={{
@@ -16,19 +29,21 @@ const Home = () => {
       height: '80vh'
     }}>
       <Row center>
-        <h2 style={{color: 'white'}}>React Exchange</h2>
+        <h2 style={{ color: 'white' }}>React Exchange</h2>
       </Row>
       <Row>
-        <Col flex style={{height: '80vh'}}>
-          <TakeStockList/>
+        <Col flex style={{ height: '80vh' }}>
+          <TakeStockList />
         </Col>
-        <Spacer right/>
-        <Col flex style={{height: '80vh'}} className={"card"}>
-          <TakeStockDetail/>
+        <Spacer right />
+        <Col flex style={{ height: '80vh' }} className={"card"}>
+          <TakeStockDetail />
         </Col>
       </Row>
     </Col>
   );
+
+
 };
 
 export default Home;

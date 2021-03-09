@@ -3,6 +3,7 @@ import TakeStockItem from "./TakeStockItem";
 import './style.scss'
 import Row from "../../components/Row";
 import Col from "../../components/Col";
+import { useExchangeState } from '../../context/ExchangeContext';
 
 const data = [
   {
@@ -37,7 +38,7 @@ const data = [
 
 const TakeStockList = () => {
 
-
+  const {balance, tavanKharid} = useExchangeState();
   return (
     <Col className={"card"} style={{height: '100%', position: 'relative'}}>
       <div style={{flex: 1,}}>
@@ -61,9 +62,9 @@ const TakeStockList = () => {
         padding: '0.5rem',
       }}>
         <p>دارایی شما : </p>
-        <p style={{marginLeft: 'auto'}}>{200000}</p>
+        <p style={{marginLeft: 'auto'}}>{balance}</p>
         <p>توان خرید : </p>
-        <p>{120000}</p>
+        <p>{tavanKharid}</p>
       </Row>
     </Col>
   );
